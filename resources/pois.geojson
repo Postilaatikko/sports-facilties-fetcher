@@ -1,0 +1,24 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "amenity": "cafe" }, "geometry": { "type": "Point", "coordinates": [ 24.9306796, 60.1681411 ] } },
+{ "type": "Feature", "properties": { "amenity": "fast_food" }, "geometry": { "type": "Point", "coordinates": [ 24.9304147, 60.169286 ] } },
+{ "type": "Feature", "properties": { "amenity": "atm" }, "geometry": { "type": "Point", "coordinates": [ 24.9298578, 60.1684816 ] } },
+{ "type": "Feature", "properties": { "amenity": "fast_food" }, "geometry": { "type": "Point", "coordinates": [ 24.9310828, 60.1680326 ] } },
+{ "type": "Feature", "properties": { "amenity": "pharmacy" }, "geometry": { "type": "Point", "coordinates": [ 24.930792, 60.1683525 ] } },
+{ "type": "Feature", "properties": { "amenity": "post_box" }, "geometry": { "type": "Point", "coordinates": [ 24.9298578, 60.1682737 ] } },
+{ "type": "Feature", "properties": { "amenity": "pub" }, "geometry": { "type": "Point", "coordinates": [ 24.9315961, 60.1683953 ] } },
+{ "type": "Feature", "properties": { "amenity": "fast_food" }, "geometry": { "type": "Point", "coordinates": [ 24.9300413, 60.168996 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant" }, "geometry": { "type": "Point", "coordinates": [ 24.9308186, 60.1679004 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant" }, "geometry": { "type": "Point", "coordinates": [ 24.9308566, 60.1680054 ] } },
+{ "type": "Feature", "properties": { "amenity": "vending_machine" }, "geometry": { "type": "Point", "coordinates": [ 24.929869, 60.167844 ] } },
+{ "type": "Feature", "properties": { "amenity": "dentist" }, "geometry": { "type": "Point", "coordinates": [ 24.9306508, 60.1682488 ] } },
+{ "type": "Feature", "properties": { "amenity": "fast_food" }, "geometry": { "type": "Point", "coordinates": [ 24.9313499, 60.1686424 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant" }, "geometry": { "type": "Point", "coordinates": [ 24.9309494, 60.1692734 ] } },
+{ "type": "Feature", "properties": { "amenity": "bicycle_rental" }, "geometry": { "type": "Point", "coordinates": [ 24.930435, 60.168644 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant" }, "geometry": { "type": "Point", "coordinates": [ 24.9298914, 60.1691027 ] } },
+{ "type": "Feature", "properties": { "amenity": "bicycle_parking" }, "geometry": { "type": "Point", "coordinates": [ 24.9304312, 60.1690615 ] } },
+{ "type": "Feature", "properties": { "amenity": "fast_food" }, "geometry": { "type": "Point", "coordinates": [ 24.9305632, 60.1691774 ] } }
+]
+}

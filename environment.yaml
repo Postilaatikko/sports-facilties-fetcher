@@ -1,0 +1,13 @@
+name: mapple-insights-api
+
+channels:
+  - conda-forge
+  - auto
+
+dependencies:
+  - conda-forge::python=3.8.0
+  - conda-forge::asynctest=0.13.0
+  - conda-forge::aiohttp=3.7.3
+  - conda-forge::starlette=0.12.9
+  - conda-forge::python-rapidjson=0.9.4
+  - conda-forge::geopandas=0.8.1
