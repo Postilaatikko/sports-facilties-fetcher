@@ -13,7 +13,7 @@ from src.mapple_api import fetch_transit_reachability
 
 class MappleAPITest(asynctest.TestCase):
     def setUp(self):
-        self.mapple_url = "https://staging.api.mapple.io/fi"
+        self.mapple_url = "http://localhost:8000"
 
     @patch('src.mapple_api.fetch')
     async def test_fetch_walking_reachability(self, fetch):
@@ -54,7 +54,7 @@ class MappleAPITest(asynctest.TestCase):
             expected_result = expected_result.sort_index()
             pandas.testing.assert_frame_equal(expected_result, result)
 
-            # target_file_fd, target_file_path = tempfile.mkstemp(prefix="transit_reachability.geojson",
+            # target_file_fd, target_file_path = tempfile.mkstemp(prefix="transit_reachability_.geojson",
             #                                                     dir=os.path.join(os.getcwd(), "resources"),
             #                                                     suffix=".geojson")
             #

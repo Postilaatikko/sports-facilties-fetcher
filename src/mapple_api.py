@@ -1,4 +1,3 @@
-import os
 from enum import Enum
 from typing import Dict
 
@@ -27,7 +26,7 @@ async def fetch(url, params: Dict[str, str], headers: Dict[str, str]):
                         status_code=response.status,
                         detail=detail
                     )
-    except HTTPException:
+    except HTTPException as e:
         raise
     except Exception as e:
         raise HTTPException(
@@ -41,7 +40,7 @@ async def fetch_walking_reachability(base_url: str, latitude: float,
                                      radius: int = 20000,
                                      walking_speed_kmph: float = WalkingSpeeds.AVERAGE, maxTimeThreshold: int = 30):
     try:
-        url = "{baseUrl}/reachability/travelTime/walking/1".format(baseUrl=base_url)
+        url = "{baseUrl}/fi/reachability/travelTime/walking/1".format(baseUrl=base_url)
         params = {
             "latitude": str(latitude),
             "longitude": str(longitude),
@@ -67,7 +66,7 @@ async def fetch_cycling_reachability(base_url: str, latitude: float,
                                      cycling_speed_kmph: float = CyclingSpeeds.AVERAGE_CYCLING,
                                      maxTimeThreshold: int = 30):
     try:
-        url = "{baseUrl}/reachability/travelTime/cycling/1".format(baseUrl=base_url)
+        url = "{baseUrl}/fi/reachability/travelTime/cycling/1".format(baseUrl=base_url)
         params = {
             "latitude": str(latitude),
             "longitude": str(longitude),
@@ -95,7 +94,7 @@ async def fetch_transit_reachability(base_url: str, latitude: float,
                                      timeProfile: TimeProfile = TimeProfile.FASTEST,
                                      maxTimeThreshold: int = 30):
     try:
-        url = "{baseUrl}/reachability/travelTime/transit/1".format(baseUrl=base_url)
+        url = "{baseUrl}/fi/reachability/travelTime/transit/1".format(baseUrl=base_url)
         params = {
             "latitude": str(latitude),
             "longitude": str(longitude),
@@ -127,7 +126,7 @@ async def fetch_driving_reachability(base_url: str, latitude: float,
                                      timeProfile: TimeProfile = TimeProfile.FASTEST,
                                      maxTimeThreshold: int = 30):
     try:
-        url = "{baseUrl}/reachability/travelTime/driving/1".format(baseUrl=base_url)
+        url = "{baseUrl}/fi/reachability/travelTime/driving/1".format(baseUrl=base_url)
         params = {
             "latitude": str(latitude),
             "longitude": str(longitude),
