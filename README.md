@@ -37,7 +37,8 @@ arguments:
 | -e , --entry_points   |      None      | Geojson containing the points to consider as starting points (GeoJSON). |
 | -t  [ ...], --travel_modes  [ ...]   |      None      | Define what travel modes to calculate reachability data (walking, cycling, transit, driving) Leave it without define if accessibility for all travel modes must be calculated. |
 | -r , --radius   |  20000 | Radius in meters of the area for accessibility calculation. |
-| -m , --max_time_threshold   |  30|  Maximum Travel Time in minutes of the temporal threshold (limits) to define the temporal area for accessibility calculation. Maximum value accepted 500. |
-| -p , --output_file_prefix   |      reachability      |  Prefix to add to the output files. |
-| -d , --output_directory   |      /tmp/mapple_api/      |  Path where to locate the output files (default: /tmp/mapple_api). |
+| -m , --max_time_threshold   |  30| Maximum Travel Time in minutes of the temporal threshold (limits) to define the temporal area for accessibility calculation. Maximum value accepted 500. |
+| -p , --output_file_prefix   |      reachability      | Prefix to add to the output files. |
+| -d , --output_directory   |      /tmp/mapple_api/      | Path where to locate the output files (default: /tmp/mapple_api). |
+| -i , --individual_files   |      false      | If 'true', the accessibility layers will be stored in individual 'geojson' files. Otherwise, they will be dumped in files '.acc_dump' |
 
