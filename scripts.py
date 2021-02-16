@@ -16,7 +16,7 @@ def getBordersFile(borders_path):
     return borders
 
 def getGrid():
-    grid_path = "../250m/jkl_250.shp"
+    grid_path = "../250m/hki_250.shp"
     assert os.path.isfile(grid_path) 
     grid = gpd.read_file(grid_path)
     
@@ -59,7 +59,7 @@ def getLipasData(typecode='1180', typename='frisbeegolf_rata', municipality='Hel
     return sports_facilities_in_municipality
        
 
-def getReachabilityDF(folder, reachability_type, output_file_name): 
+def getReachabilityDF(folder, reachability_type): 
     '''
         Get reachability of sports facilities.
         Arguments: First: folder where the reachability files are. Second:
@@ -88,10 +88,6 @@ def getReachabilityDF(folder, reachability_type, output_file_name):
     
     assert gdf['id'].is_unique
     
-    # If user wants to save the results, then the results are save as geojson and shapefile.
-    if (output_file_name != ""):
-        gdf.to_file(r"./results/{}.geojson".format(output_file_name), driver="GeoJSON")
-        gdf.to_file(r"./shapefiles/{}".format(output_file_name))
     return gdf
 
 def visualize(geodataframe, column_name, destination_name, travel_method):
@@ -116,7 +112,7 @@ def visualize(geodataframe, column_name, destination_name, travel_method):
     #add basemap with contextify
     cartodb_url = "https://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png" 
 
-    ctx.add_basemap(ax, attribution="Source: Lipas, Mapple Analytics Oy. Basemap: OSM light", 
+    ctx.add_basemap(ax, attribution="Source: Lipas, Mapple Analytics Oy. Basemap: Carto light", 
                     source=cartodb_url)
 
     #add scalebar
