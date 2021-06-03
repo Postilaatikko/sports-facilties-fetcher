@@ -8,6 +8,7 @@ import pandas as pd
 import requests
 
 from matplotlib_scalebar.scalebar import ScaleBar
+from osgeo import ogr
 from pyproj import CRS
 
 def getBordersFile(borders_path):
@@ -15,8 +16,15 @@ def getBordersFile(borders_path):
     borders = gpd.read_file(borders_path)
     return borders
 
+def getJyväskyläAndMuurame():
+    path = "./shapefiles/jkl_mrm_dissolved.shp"
+    assert os.path.isfile(path) 
+    borders = gpd.read_file(path)
+    
+    return borders
+
 def getGrid():
-    grid_path = "../250m/hki_250.shp"
+    grid_path = "../250m/jkl_mrm_250.shp"
     assert os.path.isfile(grid_path) 
     grid = gpd.read_file(grid_path)
     
@@ -26,10 +34,11 @@ def getGrid():
 # 1180 = frisbeegolf_rata
 # 1340 = pallokenttä
 # 2120 = kuntosali
-def getLipasData(typecode='1180', typename='frisbeegolf_rata', municipality='Helsinki'):
+def getLipasData(typecode='1180', typename='frisbeegolf_rata', municipality='Jyväskylä', buffer=0):
     """
-    This function fetches LIPAS data from WFS and sets its crs. LIPAS data is returned to the user with simplified attributes; id, name of the sport place in Finnish and Swedish, type code and type name in Finnish. 
-    Arguments: First argument is 4 digit typecode of the sport facility and second is the typename of the sport facility in Finnish. The third argument is the chosen municipality.
+    This function fetches LIPAS data from WFS and sets its crs.
+    Arguments: First argument is 4 digit typecode of the sport facility and second is the typename of the sport facility in Finnish. The third argument is the chosen municipality. Fourth argument is the buffered distance from
+    municipality border.
     """
     # Fetching data from WFS using requests, in json format, using bounding box over the helsinki area
     r = requests.get(r"http://lipas.cc.jyu.fi/geoserver/lipas/ows?service=wfs&version=2.0.0&request=GetFeature&typeNames=lipas:lipas_"""+typecode+"""_"""+typename+"""&bbox=-548576.0,1548576.0,6291456.0,8388608.0,EPSG:3067&outputFormat=json""")
@@ -45,14 +54,17 @@ def getLipasData(typecode='1180', typename='frisbeegolf_rata', municipality='Hel
     borders = getBordersFile(borders_path)
     
     # choose municipality borders
-    muni_borders = borders[borders['NAMEFIN']==municipality]
+    muni_borders = getJyväskyläAndMuurame()
+    
+    # create a buffer surrounding the municipalities
+    buffered = muni_borders.buffer(distance=buffer)
     
     # create geodaframe from the buffered zone
-    #muni_borders = gpd.GeoDataFrame(gpd.GeoSeries(muni_borders))
-    #muni_borders = muni_borders.rename(columns={0:'geometry'})
-    #muni_borders.crs = CRS.from_epsg(3067)
+    muni_borders = gpd.GeoDataFrame(gpd.GeoSeries(buffered))
+    muni_borders = muni_borders.rename(columns={0:'geometry'})
+    muni_borders.crs = CRS.from_epsg(3067)
 
-    # limit the output to be only sports facilities in a municipality
+    # limit the output to be only sports facilities near the two municipalities
     sports_facilities_in_municipality = gpd.overlay(lipas_data, muni_borders, how='intersection') 
     sports_facilities_in_municipality = sports_facilities_in_municipality.to_crs(epsg=4326)
 
@@ -89,45 +101,3 @@ def getReachabilityDF(folder, reachability_type):
     assert gdf['id'].is_unique
     
     return gdf
-
-def visualize(geodataframe, column_name, destination_name, travel_method):
-    #define class breaks to array seen below (upper limits), apply this classification to pt and car travel times
-    bins = [0,5,10,15,20,25,30,40,50,60]
-    classifier = mapclassify.UserDefined.make(bins)
-       
-    #make new columns with class values
-    geodataframe["classified"] = geodataframe[[column_name]].apply(classifier)
-    
-    #change crs to add basemap later
-    geodataframe = geodataframe.to_crs(epsg=3067)
-                
-    #plot
-    fig, ax = plt.subplots(figsize=(10,10))
-
-    #plot the travel times according to the classified field
-    geodataframe.plot(ax= ax, column=geodataframe["classified"], cmap="RdYlBu", legend=True, alpha=0.2)
-    cbar = fig.axes[1]
-    cbar.set_yticklabels(bins)
-    
-    #add basemap with contextify
-    cartodb_url = "https://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png" 
-
-    ctx.add_basemap(ax, attribution="Source: Lipas, Mapple Analytics Oy. Basemap: Carto light", 
-                    source=cartodb_url)
-
-    #add scalebar
-    scalebar = ScaleBar(1.0, location=4)
-    plt.gca().add_artist(scalebar)
-
-    #add north arrow
-    x, y, arrow_length = 0.9, 0.2, 0.115
-    ax.annotate('N', xy=(x, y), xytext=(x, y-arrow_length), arrowprops=dict(facecolor='black', width=5, headwidth=15),
-                ha='center', va='center', fontsize=20, xycoords=ax.transAxes)
-    
-    #add title and show map
-    ax.set_title("Travel times to " + destination_name + " by " + travel_method , fontsize=24)
-
-    #save and return fig
-    output_fig = "results/traveltimes" + column_name + ".png"
-    plt.savefig(output_fig)
-    return output_fig
